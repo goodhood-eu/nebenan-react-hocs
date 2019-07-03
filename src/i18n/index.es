@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Polyglot from 'node-polyglot';
-import { getDisplayName, proxyRef } from '../utils';
+import { getDisplayName, getForwardedComponent } from '../utils';
 
 
 export const connectLocale = (Component, options) => {
@@ -19,7 +19,10 @@ export const connectLocale = (Component, options) => {
   };
 
   const displayName = getDisplayName('connectLocale', Component);
-  return proxyRef(displayName, LocalizedComponent, options);
+  if (options.forwardRef) return getForwardedComponent(displayName, LocalizedComponent);
+
+  LocalizedComponent.displayName = displayName;
+  return LocalizedComponent;
 };
 
 

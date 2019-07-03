@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import eventproxy from 'nebenan-helpers/lib/eventproxy';
 import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, proxyRef } from '../utils';
+import { getDisplayName, getForwardedComponent } from '../utils';
 
 
 const makeAdaptive = (Component, options) => {
@@ -33,7 +33,10 @@ const makeAdaptive = (Component, options) => {
   }
 
   const displayName = getDisplayName('makeAdaptive', Component);
-  return proxyRef(displayName, AdaptiveComponent, options);
+  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
+
+  AdaptiveComponent.displayName = displayName;
+  return AdaptiveComponent;
 };
 
 export default makeAdaptive;

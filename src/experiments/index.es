@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { proxyRef } from '../utils';
+import { getForwardedComponent } from '../utils';
 
 
 const mapStateToProps = ({ experiments }) => ({ experiments });
@@ -16,7 +16,10 @@ const makeExperiment = (name, variations, variationProps, options) => {
   const displayName = `makeExperiment(${name})`;
   const WrappedComponent = connect(mapStateToProps)(Experiment);
 
-  return proxyRef(displayName, WrappedComponent, options);
+  if (options.forwardRef) return getForwardedComponent(displayName, WrappedComponent);
+
+  WrappedComponent.displayName = displayName;
+  return WrappedComponent;
 };
 
 export default makeExperiment;

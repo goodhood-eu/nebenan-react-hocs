@@ -4,7 +4,7 @@ import { getMedia, media } from 'nebenan-helpers/lib/dom';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
 
-const makeAdaptive = (Component, options) => {
+const makeAdaptive = (Component, options = {}) => {
   class AdaptiveComponent extends PureComponent {
     constructor(props) {
       super(props);

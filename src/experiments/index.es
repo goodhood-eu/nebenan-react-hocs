@@ -5,7 +5,7 @@ import { getForwardedComponent } from '../utils';
 
 const mapStateToProps = ({ experiments }) => ({ experiments });
 
-const makeExperiment = (name, variations, variationProps, options) => {
+const makeExperiment = (name, variations, variationProps, options = {}) => {
   const Experiment = ({ experiments, forwardedRef }) => {
     const id = experiments[name];
     const Component = variations[id];

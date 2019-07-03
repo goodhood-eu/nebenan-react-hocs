@@ -5,7 +5,7 @@ import Polyglot from 'node-polyglot';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
 
-export const connectLocale = (Component, options) => {
+export const connectLocale = (Component, options = {}) => {
   const LocalizedComponent = (proxyProps, context) => {
     const { forwardedRef, ...props } = proxyProps;
     return (

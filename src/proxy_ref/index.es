@@ -5,14 +5,16 @@ const proxyRef = (Component) => (
 );
 
 export const getMergedRef = (ref, getterFn) => {
-  if (typeof ref !== 'function') {
+  // ref exists and created via createRef
+  if (ref && typeof ref !== 'function') {
     getterFn(ref);
     return ref;
   }
 
+  // ref doesn't exist or is a function
   return (el) => {
     getterFn({ current: el });
-    ref(el);
+    if (ref) ref(el);
   };
 };
 

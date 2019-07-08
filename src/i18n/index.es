@@ -2,17 +2,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Polyglot from 'node-polyglot';
+import { getDisplayName, getForwardedComponent } from '../utils';
 
-export const connectLocale = (WrappedComponent) => {
-  const LocalizedComponent = (props, context) => (
-    <WrappedComponent {...props} t={context.locale.t} locale={context.localeData} />
-  );
+
+export const connectLocale = (Component, options = {}) => {
+  const LocalizedComponent = (proxyProps, context) => {
+    const { forwardedRef, ...props } = proxyProps;
+    return (
+      <Component {...props} t={context.locale.t} locale={context.localeData} ref={forwardedRef} />
+    );
+  };
 
   LocalizedComponent.contextTypes = {
     locale: PropTypes.object,
     localeData: PropTypes.object,
   };
 
+  const displayName = getDisplayName('connectLocale', Component);
+  if (options.forwardRef) return getForwardedComponent(displayName, LocalizedComponent);
+
+  LocalizedComponent.displayName = displayName;
   return LocalizedComponent;
 };
 
@@ -47,11 +56,6 @@ class International extends PureComponent {
 International.childContextTypes = {
   locale: PropTypes.object,
   localeData: PropTypes.object,
-};
-
-International.propTypes = {
-  children: PropTypes.node,
-  locale: PropTypes.object.isRequired,
 };
 
 export default International;

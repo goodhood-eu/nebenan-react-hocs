@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
+import { getDisplayName } from '../utils';
 
 
-export default (methods, WrappedComponent) => {
-  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+const mergeMethods = (methods, Component) => {
   const componentMethods = {};
+  const displayName = getDisplayName('mergeMethods', Component);
 
   const getMethod = (method) => (
     function(...args) {
-      const instance = this.proxiedRef[method] ? this.proxiedRef : this.proxiedInstance;
+      const instance = this.ref[method] ? this.ref : this.deepRef;
       return instance[method].call(instance, ...args);
     }
   );
@@ -19,23 +20,28 @@ export default (methods, WrappedComponent) => {
     }
 
     componentDidMount() {
-      this.proxiedInstance = this.proxiedRef.getWrappedInstance();
+      this.deepRef = this.ref.getNestedRef();
     }
 
-    getWrappedInstance() {
-      return this.proxiedInstance;
+    getRef() {
+      return this.ref;
+    }
+
+    getNestedRef() {
+      return this.deepRef;
     }
 
     render() {
-      return <WrappedComponent {...this.props} ref={(el) => { this.proxiedRef = el; }} />;
+      return <Component {...this.props} ref={(el) => { this.ref = el; }} />;
     }
   }
 
-  ProxyComponent.displayName = `ProxyComponent(${displayName})`;
-  ProxyComponent.WrappedComponent = WrappedComponent;
+  ProxyComponent.displayName = displayName;
 
   methods.forEach((method) => { componentMethods[method] = getMethod(method); });
   Object.assign(ProxyComponent.prototype, componentMethods);
 
   return ProxyComponent;
 };
+
+export default mergeMethods;

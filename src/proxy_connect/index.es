@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { getDisplayName, getForwardedComponent } from '../utils';
 
 
-export default (mapStateToProps, mapDispatchToProps, mergeProps, opts) => {
-  const options = { ...opts, withRef: true };
+const proxyConnect = (mapStateToProps, mapDispatchToProps, mergeProps, opts) => {
+  const options = { ...opts, forwardRef: true };
 
   const connectFunc = connect(
     mapStateToProps,
@@ -12,42 +12,12 @@ export default (mapStateToProps, mapDispatchToProps, mergeProps, opts) => {
     options,
   );
 
-  return (methods, WrappedComponent) => {
-    const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
-    const ConnectedComponent = connectFunc(WrappedComponent);
-    const componentMethods = {};
+  return (Component) => {
+    const displayName = getDisplayName('proxyConnect', Component);
+    const WrappedComponent = getForwardedComponent(displayName, Component);
 
-    const getMethod = (method) => (
-      function(...args) {
-        return this.proxiedInstance[method].call(this.proxiedInstance, ...args);
-      }
-    );
-
-    class ProxyConnect extends PureComponent {
-      constructor(props) {
-        super(props);
-        methods.forEach((method) => { this[method] = this[method].bind(this); });
-      }
-
-      componentDidMount() {
-        this.proxiedInstance = this.proxiedRef.getWrappedInstance();
-      }
-
-      getWrappedInstance() {
-        return this.proxiedInstance;
-      }
-
-      render() {
-        return <ConnectedComponent {...this.props} ref={(el) => { this.proxiedRef = el; }} />;
-      }
-    }
-
-    ProxyConnect.displayName = `ProxyConnect(${displayName})`;
-    ProxyConnect.WrappedComponent = ConnectedComponent;
-
-    methods.forEach((method) => { componentMethods[method] = getMethod(method); });
-    Object.assign(ProxyConnect.prototype, componentMethods);
-
-    return ProxyConnect;
+    return connectFunc(WrappedComponent);
   };
 };
+
+export default proxyConnect;

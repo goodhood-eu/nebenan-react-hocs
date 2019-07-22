@@ -1,21 +1,15 @@
-/* eslint react/no-multi-comp: "off" */
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import Polyglot from 'node-polyglot';
+import LocaleContext from './context';
 import { getDisplayName, getForwardedComponent } from '../utils';
+
+const { Provider, Consumer } = LocaleContext;
 
 
 export const connectLocale = (Component, options = {}) => {
-  const LocalizedComponent = (proxyProps, context) => {
-    const { forwardedRef, ...props } = proxyProps;
-    return (
-      <Component {...props} t={context.locale.t} locale={context.localeData} ref={forwardedRef} />
-    );
-  };
-
-  LocalizedComponent.contextTypes = {
-    locale: PropTypes.object,
-    localeData: PropTypes.object,
+  const LocalizedComponent = ({ forwardedRef, ...props }) => {
+    const renderProp = (context) => <Component {...props} {...context} ref={forwardedRef} />;
+    return <Consumer>{renderProp}</Consumer>;
   };
 
   const displayName = getDisplayName('connectLocale', Component);
@@ -38,24 +32,22 @@ class International extends PureComponent {
       warn: logMissing,
       locale: type,
     });
+
     this.polyglot.t = this.polyglot.t.bind(this.polyglot);
+    this.staticContext = this.getDefaultContext();
   }
 
-  getChildContext() {
-    return {
-      locale: this.polyglot,
-      localeData: this.props.locale,
-    };
+  getDefaultContext() {
+    const { t } = this.polyglot;
+    const { locale } = this.props;
+
+    return { t, locale };
   }
 
   render() {
-    return this.props.children;
+    return <Provider value={this.staticContext}>{this.props.children}</Provider>;
   }
 }
 
-International.childContextTypes = {
-  locale: PropTypes.object,
-  localeData: PropTypes.object,
-};
-
 export default International;
+export { LocaleContext, Consumer };

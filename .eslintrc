@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "extends": ["airbnb"],
   "env": {
     "browser": true
@@ -43,6 +44,7 @@
     "react/no-did-mount-set-state": "off",
     "react/no-danger": "off",
     "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
     "react/jsx-max-props-per-line": ["error", { "maximum": 3, "when": "multiline" }],
     "react/sort-comp": ["error", {
       "order": [

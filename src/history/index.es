@@ -25,5 +25,5 @@ export const historyPropTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  staticContext: PropTypes.object.isRequired,
+  staticContext: PropTypes.object,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { getDisplayName } from '../utils';
 
 
@@ -19,3 +20,10 @@ const withHistory = (Component) => {
 };
 
 export default withHistory;
+
+export const historyPropTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  staticContext: PropTypes.object.isRequired,
+};

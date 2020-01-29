@@ -1,15 +1,18 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useContext } from 'react';
 import Polyglot from 'node-polyglot';
 import LocaleContext from './context';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
 const { Provider, Consumer } = LocaleContext;
 
+export function useInternational() {
+  return useContext(LocaleContext);
+}
 
 export const connectLocale = (Component, options = {}) => {
   const LocalizedComponent = ({ forwardedRef, ...props }) => {
-    const renderProp = (context) => <Component {...props} {...context} ref={forwardedRef} />;
-    return <Consumer>{renderProp}</Consumer>;
+    const locale = useInternational();
+    return <Component {...props} {...locale} ref={forwardedRef} />;
   };
 
   const displayName = getDisplayName('connectLocale', Component);

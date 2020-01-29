@@ -4,12 +4,12 @@ import { getMedia, media } from 'nebenan-helpers/lib/dom';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
 
-export function useIsMobile() {
+export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM))), []);
 
   return isMobile;
-}
+};
 
 const makeAdaptive = (Component, options = {}) => {
   function AdaptiveComponent({ forwardedRef, ...props }) {

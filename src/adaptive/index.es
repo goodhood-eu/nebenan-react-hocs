@@ -12,10 +12,10 @@ export const useIsMobile = () => {
 };
 
 const makeAdaptive = (Component, options = {}) => {
-  function AdaptiveComponent({ forwardedRef, ...props }) {
+  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
     const isMobile = useIsMobile();
     return <Component {...props} ref={forwardedRef} mobile={isMobile} />;
-  }
+  };
 
   const displayName = getDisplayName('makeAdaptive', Component);
   if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);

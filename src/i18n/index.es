@@ -5,9 +5,7 @@ import { getDisplayName, getForwardedComponent } from '../utils';
 
 const { Provider, Consumer } = LocaleContext;
 
-export function useInternational() {
-  return useContext(LocaleContext);
-}
+export const useInternational = () => useContext(LocaleContext);
 
 export const connectLocale = (Component, options = {}) => {
   const LocalizedComponent = ({ forwardedRef, ...props }) => {

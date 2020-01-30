@@ -5,7 +5,7 @@ import { getDisplayName, getForwardedComponent } from '../utils';
 
 
 export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(null);
   useEffect(() => eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM))), []);
 
   return isMobile;

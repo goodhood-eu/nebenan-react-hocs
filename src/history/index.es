@@ -15,11 +15,11 @@ const withHistory = (Component) => {
 
     return (
       <Component
+        {...props}
         history={history}
         location={location}
         match={match}
         ref={ref}
-        {...props}
       />
     );
   };
@@ -37,4 +37,5 @@ export const historyPropTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  staticContext: PropTypes.object,
 };

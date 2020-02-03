@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { withRouter } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { getDisplayName } from '../utils';
 
@@ -7,17 +7,28 @@ import { getDisplayName } from '../utils';
 const withHistory = (Component) => {
   const displayName = getDisplayName('withHistory', Component);
 
-  const WrappedComponent = ({ forwardedRef, ...props }) => (
-    <Component {...props} ref={forwardedRef} />
-  );
+  const WrappedComponent = (props, ref) => {
+    const history = useHistory();
+    const location = useLocation();
+    const params = useParams();
+    const match = { params };
 
-  const WithRouter = withRouter(WrappedComponent);
-  const WithRef = (props, ref) => <WithRouter {...props} forwardedRef={ref} />;
+    return (
+      <Component
+        {...props}
+        history={history}
+        location={location}
+        match={match}
+        ref={ref}
+      />
+    );
+  };
 
-  WithRef.displayName = displayName;
-  WithRef.WrappedComponent = Component;
 
-  return forwardRef(WithRef);
+  WrappedComponent.displayName = displayName;
+  WrappedComponent.WrappedComponent = Component;
+
+  return forwardRef(WrappedComponent);
 };
 
 export default withHistory;

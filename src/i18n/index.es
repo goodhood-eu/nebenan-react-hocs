@@ -21,7 +21,7 @@ export const connectLocale = (Component, options = {}) => {
 };
 
 const International = ({ locale, children }) => {
-  const [context] = useMemo(() => {
+  const context = useMemo(() => {
     const { t } = createTranslatorInstance(locale);
     return { t, locale };
   }, []);

@@ -7,7 +7,7 @@
   "homepage": "https://nebenan.de/",
   "repository": "good-hood-gmbh/nebenan-react-hocs",
   "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
-  "version": "5.4.0-beta.0",
+  "version": "5.4.0-beta.1",
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
     "check": "npm run lint && echo \"\\033[0;32mReady to publish\\033[0m\"",
@@ -42,6 +42,7 @@
     "prop-types": "^15.7.2",
     "qs": "^6.9.1",
     "react": "^16.13.0",
+    "redux": "^4.0.5",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "redux": "^4.0.5",
@@ -52,6 +53,7 @@
     "react": "^16.13.0",
     "prop-types": "^15.7.2",
     "nebenan-helpers": "^3.3.0 || ^4.1.1",
+    "redux": "^4.0.5",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2"
   },

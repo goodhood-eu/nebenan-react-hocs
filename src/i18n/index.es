@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useMemo, useContext } from 'react';
 import LocaleContext from './context';
 import { getDisplayName, getForwardedComponent } from '../utils';
 import createTranslatorInstance from './setup';
@@ -21,10 +21,10 @@ export const connectLocale = (Component, options = {}) => {
 };
 
 const International = ({ locale, children }) => {
-  const [context] = useState(() => {
+  const [context] = useMemo(() => {
     const { t } = createTranslatorInstance(locale);
     return { t, locale };
-  });
+  }, []);
 
   return <Provider value={context}>{children}</Provider>;
 };

@@ -1,10 +1,10 @@
 import useMounted from '../use_mounted';
 
-const usePromiseGuard = (deps) => {
-  const isMounted = useMounted(deps);
+const usePromiseGuard = () => {
+  const isMounted = useMounted();
 
   const execute = (getPromise) => new Promise((resolve, reject) => {
-    getPromise(resolve, reject)
+    getPromise()
       .then((result) => {
         if (isMounted.current) resolve(result);
       })

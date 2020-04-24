@@ -51,7 +51,7 @@
     "@babel/runtime": "^7.8.4",
     "react": "^16.13.0",
     "prop-types": "^15.7.2",
-    "nebenan-helpers": "^3.3.0 || ^4.1.1",
+    "nebenan-helpers": "^3.3.0 || ^4.2.0",
     "redux": "^4.0.5",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2"

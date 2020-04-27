@@ -7,7 +7,7 @@
   "homepage": "https://nebenan.de/",
   "repository": "good-hood-gmbh/nebenan-react-hocs",
   "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
     "check": "npm run lint && echo \"\\033[0;32mReady to publish\\033[0m\"",
@@ -38,7 +38,7 @@
     "eslint": "^6.8.0",
     "eslint-config-nebenan": "^1.2.1",
     "mocha": "^7.1.1",
-    "nebenan-helpers": "^4.1.1",
+    "nebenan-helpers": "^4.2.0",
     "prop-types": "^15.7.2",
     "qs": "^6.9.2",
     "react": "^16.13.1",
@@ -51,7 +51,7 @@
     "@babel/runtime": "^7.8.4",
     "react": "^16.13.0",
     "prop-types": "^15.7.2",
-    "nebenan-helpers": "^3.3.0 || ^4.1.1",
+    "nebenan-helpers": "^3.3.0 || ^4.2.0",
     "redux": "^4.0.5",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2"

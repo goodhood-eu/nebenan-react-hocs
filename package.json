@@ -10,8 +10,7 @@
   "version": "5.11.0-beta.0",
   "files": [
     "lib/*.js",
-    "lib/*/*.js",
-    ".browserslistrc"
+    "lib/*/*.js"
   ],
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",

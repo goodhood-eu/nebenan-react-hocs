@@ -48,13 +48,13 @@
     "terser": "^5.3.8"
   },
   "peerDependencies": {
-    "@babel/runtime": "^7.8.4",
+    "@babel/runtime": "^7.12.1",
     "react": "^16.14.0 || ^17.0.1",
     "prop-types": "^15.7.2",
-    "nebenan-helpers": "^3.3.0 || ^4.2.0",
+    "nebenan-helpers": "^4.3.0",
     "redux": "^4.0.5",
-    "react-redux": "^7.2.0",
-    "react-router": "^5.1.2"
+    "react-redux": "^7.2.2",
+    "react-router": "^5.2.0",
   },
   "dependencies": {
     "node-polyglot": "^2.4.0"

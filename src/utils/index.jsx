@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 export const getDisplayName = (wrapper, Component) => {
   const name = Component.displayName || Component.name || 'Component';

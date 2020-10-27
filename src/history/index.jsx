@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { getDisplayName } from '../utils';

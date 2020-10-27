@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 import LocaleContext from './context';
 import { getDisplayName, getForwardedComponent } from '../utils';
 import createTranslatorInstance from './setup';

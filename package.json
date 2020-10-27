@@ -7,17 +7,21 @@
   "homepage": "https://nebenan.de/",
   "repository": "good-hood-gmbh/nebenan-react-hocs",
   "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
-  "version": "5.11.0",
+  "version": "5.11.0-beta.0",
+  "files": [
+    "lib/*.js",
+    "lib/*/*.js",
+    ".browserslistrc"
+  ],
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
     "check": "npm run lint && echo \"\\033[0;32mReady to publish\\033[0m\"",
     "clean": "rm -rf ./lib/ || exit 1",
     "compile": "NODE_ENV=production babel src --out-dir lib --copy-files",
-    "minify": "find ./lib -name '*.js' -exec terser {} -o {} --config-file terser.json \\;",
-    "build": "npm run compile && npm run minify",
+    "build": "npm run compile",
     "prepublishOnly": "npm run check && npm run clean && npm run build",
-    "lint": "eslint --ext .es,.js ./",
-    "lint:tofile": "eslint --ext .es,.js --no-color -o ./eslint-report.log ./",
+    "lint": "eslint --ext .jsx,.js ./",
+    "lint:tofile": "eslint --ext .jsx,.js --no-color -o ./eslint-report.log ./",
     "test": "npm run compile && TZ='GMT' mocha \"test/**/*.js\"",
     "test:tofile": "npm run compile && TZ='GMT' mocha --no-colors -R spec \"test/**/*.js\" 2>&1 | tee test-report.log"
   },
@@ -44,8 +48,7 @@
     "react": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
-    "redux": "^4.0.5",
-    "terser": "^5.3.8"
+    "redux": "^4.0.5"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.12.1",
@@ -54,7 +57,7 @@
     "nebenan-helpers": "^4.3.0",
     "redux": "^4.0.5",
     "react-redux": "^7.2.2",
-    "react-router": "^5.2.0",
+    "react-router": "^5.2.0"
   },
   "dependencies": {
     "node-polyglot": "^2.4.0"

@@ -48,7 +48,8 @@
     "react": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.12.1",
@@ -57,7 +58,8 @@
     "nebenan-helpers": "^4.3.0",
     "redux": "^4.0.5",
     "react-redux": "^7.2.2",
-    "react-router": "^5.2.0"
+    "react-router": "^5.2.0",
+    "lodash": "^4.17.15"
   },
   "dependencies": {
     "node-polyglot": "^2.4.0"

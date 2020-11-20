@@ -38,16 +38,18 @@
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "date-fns": "^2.16.1",
-    "eslint": "^7.13.0",
+    "eslint": "^7.12.1",
     "eslint-config-nebenan": "^3.0.0",
-    "mocha": "^8.2.1",
-    "nebenan-helpers": "^4.5.0",
+    "browserslist-config-nebenan": "^1.0.0",
+    "mocha": "^8.2.0",
+    "nebenan-helpers": "^4.3.0",
     "prop-types": "^15.7.2",
     "qs": "^6.9.4",
     "react": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "@babel/runtime": "^7.12.1",
@@ -56,6 +58,7 @@
     "nebenan-helpers": "^4.3.0",
     "redux": "^4.0.5",
     "react-redux": "^7.2.2",
-    "react-router": "^5.2.0"
+    "react-router": "^5.2.0",
+    "lodash": "^4.17.15"
   }
 }

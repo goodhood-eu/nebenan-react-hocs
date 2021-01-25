@@ -6,12 +6,11 @@ export const useEventListener = (
   handler,
   { passive, capture, once } = { passive: true },
 ) => {
-  const node = ref.current;
   const handlerRef = useRef(null);
-
   handlerRef.current = handler;
 
   useEffect(() => {
+    const node = ref.current;
     if (!node) return;
 
     const listener = (...args) => handlerRef.current(...args);
@@ -22,5 +21,5 @@ export const useEventListener = (
     return () => {
       node.removeEventListener(type, listener, options);
     };
-  }, [type, node, passive, capture, once]);
+  }, [type, ref.current, passive, capture, once]);
 };

@@ -7,12 +7,13 @@ export const useEventListener = (
   options = { passive: true },
 ) => {
   useEffect(() => {
-    if (!ref.current) return;
+    const node = ref.current;
+    if (!node) return;
 
-    ref.current.addEventListener(type, listener, options);
+    node.addEventListener(type, listener, options);
 
     return () => {
-      ref.current.removeEventListener(type, listener);
+      node.removeEventListener(type, listener, options);
     };
   }, [type, listener, options]);
 };

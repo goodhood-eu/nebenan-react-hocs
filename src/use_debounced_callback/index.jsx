@@ -1,18 +1,36 @@
 import debounce from 'lodash/debounce';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const useStableMemo = (fn, teardownFn, deps) => {
+  const firstRun = useRef(true);
+  const [memorized, setMemorized] = useState(() => fn());
+
+  useEffect(() => {
+    let localMemorized;
+
+    if (firstRun.current) {
+      firstRun.current = false;
+      localMemorized = memorized;
+    } else {
+      localMemorized = fn();
+      setMemorized(() => localMemorized);
+    }
+
+    return teardownFn.bind(undefined, localMemorized);
+  }, deps);
+
+  return memorized;
+};
 
 const useDebouncedCallback = (func, delay, deps = []) => {
   const callback = useRef(null);
   callback.current = func;
 
-  // TODO: don't use memo (check react documentation)
-  const wrapped = useMemo(() => (
-    debounce((...args) => callback.current?.(...args), delay)
-  ), [delay]);
-
-  useEffect(() => () => { wrapped?.cancel(); }, [wrapped, deps]);
-
-  return wrapped;
+  return useStableMemo(
+    () => debounce((...args) => callback.current?.(...args), delay),
+    (instance) => { instance.cancel(); },
+    [delay, ...deps],
+  );
 };
 
 export default useDebouncedCallback;

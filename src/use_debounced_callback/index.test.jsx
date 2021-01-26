@@ -38,22 +38,13 @@ describe('use_debounced_callback', () => {
 
   context('deps change', () => {
     it('cancels queue', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseDebouncedCallback(200, []);
+      const { wrapper, hookCallbackRef, handler } = getWrappedUseDebouncedCallback(200, [1]);
       act(() => { hookCallbackRef.current(); });
-      wrapper.setProps({ deps: [1, 2, 3] });
+      wrapper.setProps({ deps: [2] });
 
       act(() => { clock.tick(200); });
 
       assert.isNotTrue(handler.called);
-    });
-
-    it('returns same callback', () => {
-      const { wrapper, hookCallbackRef } = getWrappedUseDebouncedCallback(200, []);
-      const initialHookCallback = hookCallbackRef.current;
-
-      wrapper.setProps({ deps: [1, 2, 3] });
-
-      assert.equal(initialHookCallback, hookCallbackRef.current);
     });
   });
 

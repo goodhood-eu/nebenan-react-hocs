@@ -1,18 +1,18 @@
 import debounce from 'lodash/debounce';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
-const useDebouncedCallback = (func, delay) => {
-  const [instance, setInstance] = useState(undefined);
+const useDebouncedCallback = (func, delay, deps = []) => {
+  const callback = useRef(null);
+  callback.current = func;
 
-  useEffect(() => {
-    const debounced = debounce(func, delay);
+  // TODO: don't use memo (check react documentation)
+  const wrapped = useMemo(() => (
+    debounce((...args) => callback.current?.(...args), delay)
+  ), [delay]);
 
-    setInstance(debounced);
+  useEffect(() => () => { wrapped?.cancel(); }, [wrapped, deps]);
 
-    return () => { debounced.flush(); };
-  }, [func, delay]);
-
-  return instance;
+  return wrapped;
 };
 
 export default useDebouncedCallback;

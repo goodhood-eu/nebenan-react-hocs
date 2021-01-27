@@ -1,16 +1,18 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import throttle from 'lodash/throttle';
-import useStableMemo from '../_use_stable_memo';
 
 const useThrottledCallback = (func, delay, deps = []) => {
   const callback = useRef(null);
   callback.current = func;
 
-  return useStableMemo(
-    () => throttle((...args) => callback.current?.(...args), delay),
-    (instance) => { instance.cancel(); },
-    [delay, ...deps],
-  );
+  const wrappedRef = useRef(null);
+  if (!wrappedRef.current) {
+    wrappedRef.current = throttle((...args) => callback.current?.(...args), delay);
+  }
+
+  useEffect(() => () => { wrappedRef.current?.cancel(); }, [...deps]);
+
+  return wrappedRef.current;
 };
 
 export default useThrottledCallback;

@@ -75,28 +75,6 @@ describe('use_throttled_callback', () => {
     });
   });
 
-  context('delay changes', () => {
-    it('cancels queue', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseThrottledCallback(200, []);
-
-      act(() => { hookCallbackRef.current(); });
-      wrapper.setProps({ delay: 1 });
-      act(() => { clock.tick(20); });
-      act(() => { hookCallbackRef.current(); });
-
-      assert.isTrue(handler.calledTwice);
-    });
-
-    it('returns new callback', () => {
-      const { wrapper, hookCallbackRef } = getWrappedUseThrottledCallback(200, []);
-      const initialHookCallback = hookCallbackRef.current;
-
-      wrapper.setProps({ delay: 1 });
-
-      assert.notEqual(initialHookCallback, hookCallbackRef.current);
-    });
-  });
-
   it('calls handler throttled', () => {
     const { hookCallbackRef, handler } = getWrappedUseThrottledCallback(100, []);
     act(() => { hookCallbackRef.current(); });

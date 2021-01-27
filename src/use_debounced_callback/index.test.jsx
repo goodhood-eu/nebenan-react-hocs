@@ -72,28 +72,6 @@ describe('use_debounced_callback', () => {
     });
   });
 
-  context('delay changes', () => {
-    it('cancels queue', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseDebouncedCallback(200, []);
-      act(() => { hookCallbackRef.current(); });
-
-      wrapper.setProps({ delay: 1 });
-
-      act(() => { clock.tick(200); });
-
-      assert.isNotTrue(handler.called);
-    });
-
-    it('returns new callback', () => {
-      const { wrapper, hookCallbackRef } = getWrappedUseDebouncedCallback(200, []);
-      const initialHookCallback = hookCallbackRef.current;
-
-      wrapper.setProps({ delay: 1 });
-
-      assert.notEqual(initialHookCallback, hookCallbackRef.current);
-    });
-  });
-
   it('calls handler debounced', () => {
     const { hookCallbackRef, handler } = getWrappedUseDebouncedCallback(100, []);
     act(() => { hookCallbackRef.current(); });

@@ -1,16 +1,19 @@
 import debounce from 'lodash/debounce';
-import { useRef } from 'react';
-import useStableMemo from '../_use_stable_memo';
+import { useEffect, useRef } from 'react';
 
+// Does not react to `delay` changes
 const useDebouncedCallback = (func, delay, deps = []) => {
   const callback = useRef(null);
   callback.current = func;
 
-  return useStableMemo(
-    () => debounce((...args) => callback.current?.(...args), delay),
-    (instance) => { instance.cancel(); },
-    [delay, ...deps],
-  );
+  const wrappedRef = useRef(null);
+  if (!wrappedRef.current) {
+    wrappedRef.current = debounce((...args) => callback.current?.(...args), delay);
+  }
+
+  useEffect(() => () => { wrappedRef.current?.cancel(); }, [...deps]);
+
+  return wrappedRef.current;
 };
 
 export default useDebouncedCallback;

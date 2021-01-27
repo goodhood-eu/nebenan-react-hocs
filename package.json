@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
-    "check": "npm run lint && echo \"\\033[0;32mReady to publish\\033[0m\"",
+    "check": "npm run lint && npm run test && echo \"\\033[0;32mReady to publish\\033[0m\"",
     "clean": "rm -rf ./lib/ || exit 1",
     "compile": "NODE_ENV=production babel src --out-dir lib --copy-files",
     "build": "npm run compile",

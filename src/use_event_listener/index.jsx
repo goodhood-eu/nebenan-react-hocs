@@ -1,18 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useEventListener = (
   ref,
   type,
-  listener,
-  options = { passive: true },
+  handler,
+  { passive, capture, once } = { passive: true },
 ) => {
-  useEffect(() => {
-    if (!ref.current) return;
+  const handlerRef = useRef(null);
+  handlerRef.current = handler;
 
-    ref.current.addEventListener(type, listener, options);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const listener = (...args) => handlerRef.current(...args);
+    const options = { passive, capture, once };
+
+    node.addEventListener(type, listener, options);
 
     return () => {
-      ref.current.removeEventListener(type, listener);
+      node.removeEventListener(type, listener, options);
     };
-  }, [type, listener, options]);
+  }, [type, ref.current, passive, capture, once]);
 };

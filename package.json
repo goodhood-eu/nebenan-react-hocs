@@ -7,7 +7,7 @@
   "homepage": "https://nebenan.de/",
   "repository": "good-hood-gmbh/nebenan-react-hocs",
   "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
-  "version": "7.4.0",
+  "version": "8.0.0",
   "files": [
     "lib/*.js",
     "lib/*/*.js"

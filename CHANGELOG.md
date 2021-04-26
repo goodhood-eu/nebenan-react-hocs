@@ -1,3 +1,6 @@
+T## v8.0.0
+- Removed `experiment` component
+
 ## v7.0.0
 - Removed i18n and node-polyglot dependency
 

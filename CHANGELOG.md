@@ -1,4 +1,4 @@
-T## v8.0.0
+## v8.0.0
 - Removed `experiment` component
 
 ## v7.0.0

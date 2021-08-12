@@ -16,7 +16,7 @@ export const useIsMobile = () => {
 /**
  * @param Component
  * @param options
- * @return {React.ForwardRefExoticComponent<React.PropsWithoutRef<{}> & React.RefAttributes<unknown>>|(function({forwardedRef: *, [p: string]: *}))}
+ * @return {Component}
  */
 const makeAdaptive = (Component, options = {}) => {
   const AdaptiveComponent = ({ forwardedRef, ...props }) => {

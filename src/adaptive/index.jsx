@@ -3,7 +3,6 @@ import eventproxy from 'nebenan-helpers/lib/eventproxy';
 import { getMedia, media } from 'nebenan-helpers/lib/dom';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
-
 export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(null);
   useEffect(() => {
@@ -14,6 +13,11 @@ export const useIsMobile = () => {
   return isMobile;
 };
 
+/**
+ * @param Component
+ * @param options
+ * @return {React.ForwardRefExoticComponent<React.PropsWithoutRef<{}> & React.RefAttributes<unknown>>|(function({forwardedRef: *, [p: string]: *}))}
+ */
 const makeAdaptive = (Component, options = {}) => {
   const AdaptiveComponent = ({ forwardedRef, ...props }) => {
     const isMobile = useIsMobile();

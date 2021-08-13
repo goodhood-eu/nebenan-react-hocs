@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>history/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,30 +29,65 @@
 
 <div id="main">
     
+    <h1 class="page-title">history/index.jsx</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { forwardRef } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router';
+import PropTypes from 'prop-types';
+import { getDisplayName } from '../utils';
 
 
+/**
+ * History HOC
+ * @param {React.Component} Component Target component
+ * @return {React.Component} Wrapped component
+ */
+const withHistory = (Component) => {
+  const displayName = getDisplayName('withHistory', Component);
+
+  const WrappedComponent = (props, ref) => {
+    const history = useHistory();
+    const location = useLocation();
+    const params = useParams();
+    const match = { params };
+
+    return (
+      &lt;Component
+        {...props}
+        history={history}
+        location={location}
+        match={match}
+        ref={ref}
+      />
+    );
+  };
 
 
+  WrappedComponent.displayName = displayName;
+  WrappedComponent.WrappedComponent = Component;
 
+  return forwardRef(WrappedComponent);
+};
 
+export default withHistory;
 
-
-
-    
-
-
-    <section class="readme">
-        <article><h1>nebenan-react-hocs</h1>
-<p>Collection of React High Order Components</p></article>
+export const historyPropTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  staticContext: PropTypes.object,
+};
+</code></pre>
+        </article>
     </section>
-
-
 
 
 

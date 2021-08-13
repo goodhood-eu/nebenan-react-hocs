@@ -19,7 +19,7 @@ export const useIsMobile = () => {
 };
 
 /**
- * @param {React.Component} Component
+ * @param {React.Component} Component Target component
  * @param {Object} options
  * @return {React.Component} AdaptiveComponent
  */

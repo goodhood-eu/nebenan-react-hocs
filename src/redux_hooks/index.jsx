@@ -3,7 +3,11 @@ import { useMemo } from 'react';
 import { bindActionCreators as bind } from 'redux';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
-
+/**
+ * @param actions
+ * @param deps
+ * @return {unknown}
+ */
 export const useActions = (actions, deps) => {
   const dispatch = useDispatch();
   return useMemo(() => {

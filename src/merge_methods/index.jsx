@@ -1,7 +1,11 @@
 import { useRef, useImperativeHandle, forwardRef } from 'react';
 import { getDisplayName } from '../utils';
 
-
+/**
+ * @param methods
+ * @param Component
+ * @return {React.ForwardRefExoticComponent}
+ */
 const mergeMethods = (methods, Component) => {
   const displayName = getDisplayName('mergeMethods', Component);
 

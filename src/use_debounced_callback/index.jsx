@@ -1,7 +1,13 @@
 import debounce from 'lodash/debounce';
 import { useEffect, useRef } from 'react';
 
-// Does not react to `delay` changes
+/**
+ * Note: Does not react to `delay` changes
+ * @param func
+ * @param delay
+ * @param deps
+ * @return {null}
+ */
 const useDebouncedCallback = (func, delay, deps = []) => {
   const callback = useRef(null);
   callback.current = func;

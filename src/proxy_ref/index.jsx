@@ -11,7 +11,7 @@ const proxyRef = (Component) => (
 /**
  * @param ref
  * @param getterFn
- * @return {(function(*=): void)|*}
+ * @return { function }
  */
 export const getMergedRef = (ref, getterFn) => {
   // ref exists and created via createRef

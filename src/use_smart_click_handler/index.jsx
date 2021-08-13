@@ -3,8 +3,8 @@ import { stripOriginFromUrl } from 'nebenan-helpers/lib/routes';
 import { useCallback } from 'react';
 
 /**
- * @param callback
- * @return {(function(*): void)|*}
+ * @param {function} callback
+ * @return {function}
  */
 const useSmartClickHandler = (callback) => {
   const history = useHistory();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>adaptive/index.jsx - Documentation</title>
+    <title>use_event_listener/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">adaptive/index.jsx</h1>
+    <h1 class="page-title">use_event_listener/index.jsx</h1>
     
 
     
@@ -39,45 +39,39 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
-import eventproxy from 'nebenan-helpers/lib/eventproxy';
-import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, getForwardedComponent } from '../utils';
+            <pre class="prettyprint source linenums"><code>import { useEffect, useRef } from 'react';
 
 /**
- * Subscription on Resize
- * See nebenan-helpers/lib/dom
- * @return {Boolean} isMobile
+ * @param ref
+ * @param type
+ * @param handler
+ * @param passive
+ * @param capture
+ * @param once
  */
-export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(null);
+export const useEventListener = (
+  ref,
+  type,
+  handler,
+  { passive, capture, once } = { passive: true },
+) => {
+  const handlerRef = useRef(null);
+  handlerRef.current = handler;
+
   useEffect(() => {
-    setIsMobile(!getMedia(window, media.mediaM));
-    return eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM)));
-  }, []);
+    const node = ref.current;
+    if (!node) return;
 
-  return isMobile;
+    const listener = (...args) => handlerRef.current(...args);
+    const options = { passive, capture, once };
+
+    node.addEventListener(type, listener, options);
+
+    return () => {
+      node.removeEventListener(type, listener, options);
+    };
+  }, [type, ref.current, passive, capture, once]);
 };
-
-/**
- * @param {React.Component} Component
- * @param {Object} options
- * @return {React.Component} AdaptiveComponent
- */
-const makeAdaptive = (Component, options = {}) => {
-  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
-    const isMobile = useIsMobile();
-    return &lt;Component {...props} ref={forwardedRef} mobile={isMobile} />;
-  };
-
-  const displayName = getDisplayName('makeAdaptive', Component);
-  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
-
-  AdaptiveComponent.displayName = displayName;
-  return AdaptiveComponent;
-};
-
-export default makeAdaptive;
 </code></pre>
         </article>
     </section>

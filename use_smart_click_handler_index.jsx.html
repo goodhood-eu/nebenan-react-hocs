@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>adaptive/index.jsx - Documentation</title>
+    <title>use_smart_click_handler/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">adaptive/index.jsx</h1>
+    <h1 class="page-title">use_smart_click_handler/index.jsx</h1>
     
 
     
@@ -39,45 +39,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
-import eventproxy from 'nebenan-helpers/lib/eventproxy';
-import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, getForwardedComponent } from '../utils';
+            <pre class="prettyprint source linenums"><code>import { useHistory } from 'react-router';
+import { stripOriginFromUrl } from 'nebenan-helpers/lib/routes';
+import { useCallback } from 'react';
 
 /**
- * Subscription on Resize
- * See nebenan-helpers/lib/dom
- * @return {Boolean} isMobile
+ * @param {function} callback
+ * @return {function}
  */
-export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(null);
-  useEffect(() => {
-    setIsMobile(!getMedia(window, media.mediaM));
-    return eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM)));
-  }, []);
+const useSmartClickHandler = (callback) => {
+  const history = useHistory();
 
-  return isMobile;
+  return useCallback((event) => {
+    const { target } = event;
+    const href = target.getAttribute('href');
+    const isLink = target.tagName === 'A';
+
+    if (isLink &amp;&amp; href) {
+      event.preventDefault();
+      const isSameDomain = href.startsWith(global.location.origin);
+      const path = stripOriginFromUrl(href, global.location.origin);
+      if (isSameDomain) history.push(path);
+      else global.open(href, undefined, 'noopener noreferrer');
+      return;
+    }
+
+    callback();
+  }, [history, callback]);
 };
 
-/**
- * @param {React.Component} Component
- * @param {Object} options
- * @return {React.Component} AdaptiveComponent
- */
-const makeAdaptive = (Component, options = {}) => {
-  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
-    const isMobile = useIsMobile();
-    return &lt;Component {...props} ref={forwardedRef} mobile={isMobile} />;
-  };
-
-  const displayName = getDisplayName('makeAdaptive', Component);
-  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
-
-  AdaptiveComponent.displayName = displayName;
-  return AdaptiveComponent;
-};
-
-export default makeAdaptive;
+export default useSmartClickHandler;
 </code></pre>
         </article>
     </section>

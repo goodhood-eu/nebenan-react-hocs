@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>adaptive/index.jsx - Documentation</title>
+    <title>utils/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">adaptive/index.jsx</h1>
+    <h1 class="page-title">utils/index.jsx</h1>
     
 
     
@@ -39,45 +39,29 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
-import eventproxy from 'nebenan-helpers/lib/eventproxy';
-import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, getForwardedComponent } from '../utils';
+            <pre class="prettyprint source linenums"><code>import { forwardRef } from 'react';
 
 /**
- * Subscription on Resize
- * See nebenan-helpers/lib/dom
- * @return {Boolean} isMobile
+ * @param wrapper
+ * @param Component
+ * @return {string}
  */
-export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(null);
-  useEffect(() => {
-    setIsMobile(!getMedia(window, media.mediaM));
-    return eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM)));
-  }, []);
-
-  return isMobile;
+export const getDisplayName = (wrapper, Component) => {
+  const name = Component.displayName || Component.name || 'Component';
+  return `${wrapper}(${name})`;
 };
 
 /**
- * @param {React.Component} Component
- * @param {Object} options
- * @return {React.Component} AdaptiveComponent
+ * @param displayName
+ * @param Component
+ * @return {React.ForwardRefExoticComponent}
  */
-const makeAdaptive = (Component, options = {}) => {
-  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
-    const isMobile = useIsMobile();
-    return &lt;Component {...props} ref={forwardedRef} mobile={isMobile} />;
-  };
+export const getForwardedComponent = (displayName, Component) => {
+  const WrappedComponent = (props, ref) => &lt;Component {...props} forwardedRef={ref} />;
+  WrappedComponent.displayName = displayName;
 
-  const displayName = getDisplayName('makeAdaptive', Component);
-  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
-
-  AdaptiveComponent.displayName = displayName;
-  return AdaptiveComponent;
+  return forwardRef(WrappedComponent);
 };
-
-export default makeAdaptive;
 </code></pre>
         </article>
     </section>

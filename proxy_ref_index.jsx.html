@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>adaptive/index.jsx - Documentation</title>
+    <title>proxy_ref/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">adaptive/index.jsx</h1>
+    <h1 class="page-title">proxy_ref/index.jsx</h1>
     
 
     
@@ -39,45 +39,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
-import eventproxy from 'nebenan-helpers/lib/eventproxy';
-import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, getForwardedComponent } from '../utils';
+            <pre class="prettyprint source linenums"><code>import { getDisplayName, getForwardedComponent } from '../utils';
 
 /**
- * Subscription on Resize
- * See nebenan-helpers/lib/dom
- * @return {Boolean} isMobile
+ * @param Component
+ * @return {React.ForwardRefExoticComponent}
  */
-export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(null);
-  useEffect(() => {
-    setIsMobile(!getMedia(window, media.mediaM));
-    return eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM)));
-  }, []);
-
-  return isMobile;
-};
+const proxyRef = (Component) => (
+  getForwardedComponent(getDisplayName('proxyRef', Component), Component)
+);
 
 /**
- * @param {React.Component} Component
- * @param {Object} options
- * @return {React.Component} AdaptiveComponent
+ * @param ref
+ * @param getterFn
+ * @return { function }
  */
-const makeAdaptive = (Component, options = {}) => {
-  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
-    const isMobile = useIsMobile();
-    return &lt;Component {...props} ref={forwardedRef} mobile={isMobile} />;
+export const getMergedRef = (ref, getterFn) => {
+  // ref exists and created via createRef
+  if (ref &amp;&amp; typeof ref !== 'function') {
+    getterFn(ref);
+    return ref;
+  }
+
+  // ref doesn't exist or is a function
+  return (el) => {
+    getterFn({ current: el });
+    if (ref) ref(el);
   };
-
-  const displayName = getDisplayName('makeAdaptive', Component);
-  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
-
-  AdaptiveComponent.displayName = displayName;
-  return AdaptiveComponent;
 };
 
-export default makeAdaptive;
+export default proxyRef;
 </code></pre>
         </article>
     </section>

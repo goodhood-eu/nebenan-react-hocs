@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>adaptive/index.jsx - Documentation</title>
+    <title>use_mounted/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">adaptive/index.jsx</h1>
+    <h1 class="page-title">use_mounted/index.jsx</h1>
     
 
     
@@ -39,45 +39,23 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
-import eventproxy from 'nebenan-helpers/lib/eventproxy';
-import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, getForwardedComponent } from '../utils';
+            <pre class="prettyprint source linenums"><code>import { useEffect, useRef } from 'react';
 
 /**
- * Subscription on Resize
- * See nebenan-helpers/lib/dom
- * @return {Boolean} isMobile
+ * @return {React.MutableRefObject&lt;boolean>}
  */
-export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(null);
+const useMounted = () => {
+  const isMounted = useRef(false);
+
   useEffect(() => {
-    setIsMobile(!getMedia(window, media.mediaM));
-    return eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM)));
+    isMounted.current = true;
+    return () => { isMounted.current = false; };
   }, []);
 
-  return isMobile;
+  return isMounted;
 };
 
-/**
- * @param {React.Component} Component
- * @param {Object} options
- * @return {React.Component} AdaptiveComponent
- */
-const makeAdaptive = (Component, options = {}) => {
-  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
-    const isMobile = useIsMobile();
-    return &lt;Component {...props} ref={forwardedRef} mobile={isMobile} />;
-  };
-
-  const displayName = getDisplayName('makeAdaptive', Component);
-  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
-
-  AdaptiveComponent.displayName = displayName;
-  return AdaptiveComponent;
-};
-
-export default makeAdaptive;
+export default useMounted;
 </code></pre>
         </article>
     </section>

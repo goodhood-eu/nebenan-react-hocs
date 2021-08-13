@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>adaptive/index.jsx - Documentation</title>
+    <title>merge_methods/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">adaptive/index.jsx</h1>
+    <h1 class="page-title">merge_methods/index.jsx</h1>
     
 
     
@@ -39,45 +39,40 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
-import eventproxy from 'nebenan-helpers/lib/eventproxy';
-import { getMedia, media } from 'nebenan-helpers/lib/dom';
-import { getDisplayName, getForwardedComponent } from '../utils';
+            <pre class="prettyprint source linenums"><code>import { useRef, useImperativeHandle, forwardRef } from 'react';
+import { getDisplayName } from '../utils';
 
 /**
- * Subscription on Resize
- * See nebenan-helpers/lib/dom
- * @return {Boolean} isMobile
+ * @param methods
+ * @param Component
+ * @return {React.ForwardRefExoticComponent}
  */
-export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(null);
-  useEffect(() => {
-    setIsMobile(!getMedia(window, media.mediaM));
-    return eventproxy('resize', () => setIsMobile(!getMedia(window, media.mediaM)));
-  }, []);
+const mergeMethods = (methods, Component) => {
+  const displayName = getDisplayName('mergeMethods', Component);
 
-  return isMobile;
-};
+  const ProxyComponent = (props, ref) => {
+    const selfRef = useRef();
 
-/**
- * @param {React.Component} Component
- * @param {Object} options
- * @return {React.Component} AdaptiveComponent
- */
-const makeAdaptive = (Component, options = {}) => {
-  const AdaptiveComponent = ({ forwardedRef, ...props }) => {
-    const isMobile = useIsMobile();
-    return &lt;Component {...props} ref={forwardedRef} mobile={isMobile} />;
+    const getHandle = (name) => (...args) => {
+      const { current: that } = selfRef;
+      const instance = that[name] ? that : that.getNestedRef();
+      return instance[name].call(instance, ...args);
+    };
+
+    useImperativeHandle(ref, () => ({
+      ...methods.reduce((acc, name) => ({ ...acc, [name]: getHandle(name) }), {}),
+      getRef: () => selfRef.current,
+      getNestedRef: () => selfRef.current.getNestedRef(),
+    }));
+
+    return &lt;Component {...props} ref={selfRef} />;
   };
 
-  const displayName = getDisplayName('makeAdaptive', Component);
-  if (options.forwardRef) return getForwardedComponent(displayName, AdaptiveComponent);
-
-  AdaptiveComponent.displayName = displayName;
-  return AdaptiveComponent;
+  ProxyComponent.displayName = displayName;
+  return forwardRef(ProxyComponent);
 };
 
-export default makeAdaptive;
+export default mergeMethods;
 </code></pre>
         </article>
     </section>

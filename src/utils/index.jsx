@@ -1,9 +1,10 @@
 import { forwardRef } from 'react';
 
 /**
- * @param wrapper
- * @param Component
- * @return {string}
+ * @type Function
+ * @param {string} wrapper
+ * @param { React.Component } Component - React Component
+ * @return {string} Combined string
  */
 export const getDisplayName = (wrapper, Component) => {
   const name = Component.displayName || Component.name || 'Component';
@@ -11,9 +12,10 @@ export const getDisplayName = (wrapper, Component) => {
 };
 
 /**
- * @param displayName
- * @param Component
- * @return {React.ForwardRefExoticComponent}
+ * @type Function
+ * @param {string} displayName
+ * @param {React.Component} Component
+ * @return {React.Component} The same component with new displayName
  */
 export const getForwardedComponent = (displayName, Component) => {
   const WrappedComponent = (props, ref) => <Component {...props} forwardedRef={ref} />;

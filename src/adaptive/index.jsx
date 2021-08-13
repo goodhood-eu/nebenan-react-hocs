@@ -3,6 +3,11 @@ import eventproxy from 'nebenan-helpers/lib/eventproxy';
 import { getMedia, media } from 'nebenan-helpers/lib/dom';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
+/**
+ * Subscription on Resize
+ * See nebenan-helpers/lib/dom
+ * @return {Boolean} isMobile
+ */
 export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(null);
   useEffect(() => {
@@ -14,9 +19,9 @@ export const useIsMobile = () => {
 };
 
 /**
- * @param Component
- * @param options
- * @return {Component}
+ * @param {React.Component} Component
+ * @param {Object} options
+ * @return {React.Component} AdaptiveComponent
  */
 const makeAdaptive = (Component, options = {}) => {
   const AdaptiveComponent = ({ forwardedRef, ...props }) => {

@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 /**
  * @function
- * @param {string} wrapper
+ * @param {string} wrapper - Wrapper name
  * @param { React.Component } Component - React Component
  * @return {string} Combined string
  */

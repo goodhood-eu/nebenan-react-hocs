@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 
 /**
  * @param callback
- * @return {function(...[*]): *}
+ * @return {function}
  */
 const useStableCallback = (callback) => {
   const ref = useRef(null);

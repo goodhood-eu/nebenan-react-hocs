@@ -13,9 +13,9 @@ export const getDisplayName = (wrapper, Component) => {
 
 /**
  * @function
- * @param {string} displayName
- * @param {React.Component} Component
- * @return {React.Component} The same component with new displayName
+ * @param {string} displayName - Component's displayName
+ * @param {React.Component} Component - Target component
+ * @return {React.Component} The same component with new displayName and forwardedRef
  */
 export const getForwardedComponent = (displayName, Component) => {
   const WrappedComponent = (props, ref) => <Component {...props} forwardedRef={ref} />;

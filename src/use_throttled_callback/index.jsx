@@ -3,7 +3,7 @@ import throttle from 'lodash/throttle';
 
 /**
  * @param func
- * @param delay
+ * @param delay - in ms
  * @param deps
  * @return {null}
  */

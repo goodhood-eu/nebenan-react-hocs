@@ -9,6 +9,7 @@ const proxyRef = (Component) => (
 );
 
 /**
+ * @function
  * @param ref
  * @param getterFn
  * @return { function }

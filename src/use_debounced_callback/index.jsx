@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
  * @param func
  * @param delay
  * @param deps
- * @return {null}
+ * @return {function}
  */
 const useDebouncedCallback = (func, delay, deps = []) => {
   const callback = useRef(null);

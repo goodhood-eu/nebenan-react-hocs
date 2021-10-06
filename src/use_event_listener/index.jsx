@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 /**
+ * @function
  * @param ref
  * @param type
  * @param handler

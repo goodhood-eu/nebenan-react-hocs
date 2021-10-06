@@ -4,6 +4,7 @@ import { getMedia, media } from 'nebenan-helpers/lib/dom';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
 /**
+ * @function
  * Subscription on Resize
  * See nebenan-helpers/lib/dom
  * @return {Boolean} isMobile

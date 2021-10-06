@@ -1,7 +1,7 @@
 import { getDisplayName, getForwardedComponent } from '../utils';
 
 /**
- * @param Component
+ * @param {React.Component} Component
  * @return {React.ForwardRefExoticComponent}
  */
 const proxyRef = (Component) => (
@@ -10,9 +10,9 @@ const proxyRef = (Component) => (
 
 /**
  * @function
- * @param ref
- * @param getterFn
- * @return { function }
+ * @param {React.RefObject} ref
+ * @param {function} getterFn
+ * @return {function}
  */
 export const getMergedRef = (ref, getterFn) => {
   // ref exists and created via createRef

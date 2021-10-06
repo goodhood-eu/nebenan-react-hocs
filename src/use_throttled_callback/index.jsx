@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import throttle from 'lodash/throttle';
 
 /**
- * @param func
- * @param delay - in ms
- * @param deps
+ * @param {function} func
+ * @param {number} delay - delay in ms for throttle
+ * @param {any[]} deps Array of dependencies for useEffect
  * @return {null}
  */
 const useThrottledCallback = (func, delay, deps = []) => {

@@ -2,12 +2,12 @@ import { useEffect, useRef } from 'react';
 
 /**
  * @function
- * @param ref
- * @param type
- * @param handler
- * @param passive
- * @param capture
- * @param once
+ * @param {React.RefObject} ref
+ * @param {string} type EventListener type
+ * @param {function} handler Handler function
+ * @param {Boolean} passive EventListener option passive
+ * @param {Boolean} capture EventListener option capture
+ * @param {Boolean} once EventListener option once
  */
 export const useEventListener = (
   ref,

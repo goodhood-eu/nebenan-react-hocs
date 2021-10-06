@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 /**
- * @param timeout
+ * @param {Number} timeout Timeout for setTimeout in ms
  * @return {Array<boolean, function>} Current status and Toggle function
  */
 const useResettingVisibility = (timeout) => {

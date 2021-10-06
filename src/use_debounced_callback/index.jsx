@@ -3,9 +3,9 @@ import { useEffect, useRef } from 'react';
 
 /**
  * Note: Does not react to `delay` changes
- * @param func
- * @param delay
- * @param deps
+ * @param {function} func Original function
+ * @param {number} delay Delay in ms
+ * @param {any[]} deps Dependencies array for useEffect
  * @return {function}
  */
 const useDebouncedCallback = (func, delay, deps = []) => {

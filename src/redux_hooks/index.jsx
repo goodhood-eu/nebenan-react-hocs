@@ -6,7 +6,7 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 /**
  * @function
  * @param actions {function | function[]} array of functions or one single function
- * @param deps
+ * @param {any[]} deps dependencies for useMemo
  * @return {function | function[]} array of functions or one single function wrapped with dispatch
  */
 export const useActions = (actions, deps) => {

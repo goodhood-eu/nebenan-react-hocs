@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 /**
  * @function
  * @param {string} wrapper - Wrapper name
- * @param { React.Component } Component - React Component
+ * @param {React.Component} Component - React Component
  * @return {string} Combined string
  */
 export const getDisplayName = (wrapper, Component) => {

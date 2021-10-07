@@ -5,8 +5,7 @@ import { getDisplayName, getForwardedComponent } from '../utils';
 
 /**
  * @function useIsMobile
- * @description Subscription on Resize
- * @description See nebenan-helpers/lib/dom
+ * @description Subscription on Resize. See nebenan-helpers/lib/dom
  * @return {Boolean} isMobile
  */
 export const useIsMobile = () => {

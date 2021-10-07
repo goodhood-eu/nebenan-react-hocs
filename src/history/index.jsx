@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import { getDisplayName } from '../utils';
 
 
+/**
+ * History HOC
+ * @param {React.Component} Component Target component
+ * @return {React.Component} Wrapped component
+ */
 const withHistory = (Component) => {
   const displayName = getDisplayName('withHistory', Component);
 

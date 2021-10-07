@@ -1,6 +1,9 @@
 import { useCallback } from 'react';
 import useMounted from '../use_mounted';
 
+/**
+ * @return {function(*): Promise<unknown>}
+ */
 const usePromiseGuard = () => {
   const isMounted = useMounted();
 

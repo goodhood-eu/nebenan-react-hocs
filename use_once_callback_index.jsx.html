@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>use_debounced_callback/index.jsx - Documentation</title>
+    <title>use_once_callback/index.jsx - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">use_debounced_callback/index.jsx</h1>
+    <h1 class="page-title">use_once_callback/index.jsx</h1>
     
 
     
@@ -39,31 +39,30 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import debounce from 'lodash/debounce';
-import { useEffect, useRef } from 'react';
+            <pre class="prettyprint source linenums"><code>import { useEffect, useRef } from 'react';
+import useStableCallback from '../use_stable_callback';
 
 /**
- * Note: Does not react to `delay` changes
- * @param {function} func Original function
- * @param {number} delay Delay in ms
- * @param {any[]} deps Dependencies array for useEffect
- * @return {function}
+ * @param {function} fn function to be called once
+ * @param {any[]} resetDeps array of dependencies for resetting 'once' state
+ * @returns {function} callback with stable identity
  */
-const useDebouncedCallback = (func, delay, deps = []) => {
-  const callback = useRef(null);
-  callback.current = func;
+const useOnceCallback = (fn, resetDeps = []) => {
+  const wasCalledRef = useRef(false);
 
-  const wrappedRef = useRef(null);
-  if (!wrappedRef.current) {
-    wrappedRef.current = debounce((...args) => callback.current?.(...args), delay);
-  }
+  useEffect(() => {
+    wasCalledRef.current = false;
+  }, resetDeps);
 
-  useEffect(() => () => { wrappedRef.current?.cancel(); }, [...deps]);
+  return useStableCallback((...args) => {
+    if (wasCalledRef.current) return;
 
-  return wrappedRef.current;
+    fn(...args);
+    wasCalledRef.current = true;
+  });
 };
 
-export default useDebouncedCallback;
+export default useOnceCallback;
 </code></pre>
         </article>
     </section>

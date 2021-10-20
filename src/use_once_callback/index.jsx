@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import useStableCallback from '../use_stable_callback';
 
 /**
- * @param fn function to be called once
+ * @param {function} fn function to be called once
  * @param {any[]} resetDeps array of dependencies for resetting 'once' state
  * @returns {function} callback with stable identity
  */

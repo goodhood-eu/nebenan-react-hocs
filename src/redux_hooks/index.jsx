@@ -3,7 +3,12 @@ import { useMemo } from 'react';
 import { bindActionCreators as bind } from 'redux';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
-
+/**
+ * @function
+ * @param actions {function | function[]} array of functions or one single function
+ * @param {any[]} deps dependencies for useMemo
+ * @return {function | function[]} array of functions or one single function wrapped with dispatch
+ */
 export const useActions = (actions, deps) => {
   const dispatch = useDispatch();
   return useMemo(() => {

@@ -1,7 +1,13 @@
 import { connect } from 'react-redux';
 import { getDisplayName, getForwardedComponent } from '../utils';
 
-
+/**
+ * @param {function} mapStateToProps
+ * @param {function} mapDispatchToProps
+ * @param {object} mergeProps
+ * @param {object} opts
+ * @return { React.Component } Wrapped with Redux.Connect component
+ */
 const proxyConnect = (mapStateToProps, mapDispatchToProps, mergeProps, opts) => {
   const options = { ...opts, forwardRef: true };
 

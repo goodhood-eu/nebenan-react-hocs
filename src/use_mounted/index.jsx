@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
 
+/**
+ * @return {React.MutableRefObject<boolean>}
+ */
 const useMounted = () => {
   const isMounted = useRef(false);
 

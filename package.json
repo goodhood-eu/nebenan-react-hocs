@@ -47,7 +47,7 @@
     "eslint-config-nebenan": "^3.0.0",
     "jsdom": "^16.4.0",
     "mocha": "^8.2.0",
-    "nebenan-helpers": "^7.0.0-beta.0",
+    "nebenan-helpers": "^7.0.0",
     "prop-types": "^15.7.2",
     "qs": "^6.9.4",
     "react": "^17.0.2",

@@ -1,3 +1,6 @@
+## v9.0.0
+- Change dependencies and peerDependencies
+
 ## v8.0.0
 - Removed `experiment` component
 

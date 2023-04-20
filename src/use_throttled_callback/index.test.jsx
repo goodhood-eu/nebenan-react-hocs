@@ -1,6 +1,6 @@
-import { assert } from 'chai';
-import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
+import { it } from 'mocha';
+import { expect } from 'chai';
+import { render, act } from '@testing-library/react';
 import { useEffect } from 'react';
 import sinon from 'sinon';
 import useThrottledCallback from './index';
@@ -15,17 +15,6 @@ const TestComponent = ({ handler, delay, deps, onCallbackChange }) => {
   return null;
 };
 
-const getWrappedUseThrottledCallback = (delay, deps) => {
-  const hookCallbackRef = { current: null };
-
-  const onCallbackChange = (newCallback) => { hookCallbackRef.current = newCallback; };
-  const handler = sinon.spy();
-
-  const wrapper = mount(<TestComponent {...{ handler, delay, deps, onCallbackChange }} />);
-
-  return { wrapper, hookCallbackRef, handler };
-};
-
 describe('use_throttled_callback', () => {
   let clock;
   beforeEach(() => {
@@ -38,45 +27,114 @@ describe('use_throttled_callback', () => {
 
   context('deps change', () => {
     it('cancels queue', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseThrottledCallback(200, [1]);
+      const hookCallbackRef = { current: null };
+
+      const onCallbackChange = (newCallback) => {
+        hookCallbackRef.current = newCallback;
+      };
+      const handler = sinon.spy();
+
+      const { rerender } = render(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[1]}
+          onCallbackChange={onCallbackChange}
+        />);
 
       act(() => { hookCallbackRef.current(); });
-      wrapper.setProps({ deps: [2] });
+      rerender(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[2]}
+          onCallbackChange={onCallbackChange}
+        />);
       act(() => { clock.tick(20); });
       act(() => { hookCallbackRef.current(); });
 
-      assert.isTrue(handler.calledTwice);
+      expect(handler.calledTwice).is.true;
     });
   });
 
   context('handler changes', () => {
     it('queue stays', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseThrottledCallback(200, []);
+      const hookCallbackRef = { current: null };
+
+      const onCallbackChange = (newCallback) => {
+        hookCallbackRef.current = newCallback;
+      };
+      const handler = sinon.spy();
+
+      const { rerender } = render(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[]}
+          onCallbackChange={onCallbackChange}
+        />);
 
       act(() => { hookCallbackRef.current(); });
 
       const newHandler = sinon.spy();
-      wrapper.setProps({ handler: newHandler });
+      rerender(<TestComponent
+        handler={newHandler}
+        delay={200}
+        deps={[]}
+        onCallbackChange={onCallbackChange}
+      />);
 
       act(() => { clock.tick(190); });
       act(() => { hookCallbackRef.current(); });
 
-      assert.isTrue(handler.called, 'old handler got called');
-      assert.isFalse(newHandler.called, 'new handler did not get called');
+      expect(handler.called, 'old handler got called').is.true;
+      expect(newHandler.called, 'new handler did not get called').is.false;
     });
 
     it('returns same callback', () => {
-      const { wrapper, hookCallbackRef } = getWrappedUseThrottledCallback(200, []);
+      const hookCallbackRef = { current: null };
+
+      const onCallbackChange = (newCallback) => {
+        hookCallbackRef.current = newCallback;
+      };
+      const handler = sinon.spy();
+
+      const { rerender } = render(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[]}
+          onCallbackChange={onCallbackChange}
+        />);
       const initialHookCallback = hookCallbackRef.current;
 
-      wrapper.setProps({ handler: sinon.spy() });
+      const newHandler = sinon.spy();
+      rerender(<TestComponent
+        handler={newHandler}
+        delay={200}
+        deps={[]}
+        onCallbackChange={onCallbackChange}
+      />);
 
-      assert.equal(initialHookCallback, hookCallbackRef.current);
+      expect(initialHookCallback).is.equal(hookCallbackRef.current);
     });
   });
 
   it('calls handler throttled', () => {
-    const { hookCallbackRef, handler } = getWrappedUseThrottledCallback(100, []);
+    const hookCallbackRef = { current: null };
+
+    const onCallbackChange = (newCallback) => {
+      hookCallbackRef.current = newCallback;
+    };
+    const handler = sinon.spy();
+
+    render(
+      <TestComponent
+        handler={handler}
+        delay={100}
+        deps={[]}
+        onCallbackChange={onCallbackChange}
+      />);
     act(() => { hookCallbackRef.current(); });
     act(() => { clock.tick(50); });
     act(() => { hookCallbackRef.current(); });
@@ -85,6 +143,6 @@ describe('use_throttled_callback', () => {
     act(() => { clock.tick(50); });
     act(() => { hookCallbackRef.current(); });
 
-    assert.isTrue(handler.calledTwice);
+    expect(handler.calledTwice).is.true;
   });
 });

@@ -1,8 +1,4 @@
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { JSDOM } from 'jsdom';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
 const { window: win } = jsdom;
@@ -23,5 +19,6 @@ global.document = win.document;
 global.navigator = {
   userAgent: 'node.js',
 };
+global.IS_REACT_ACT_ENVIRONMENT = true;
 
 copyProps(win, global);

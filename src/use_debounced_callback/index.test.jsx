@@ -1,6 +1,6 @@
-import { assert } from 'chai';
-import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
+import { it } from 'mocha';
+import { expect } from 'chai';
+import { render, act } from '@testing-library/react';
 import { useEffect } from 'react';
 import sinon from 'sinon';
 import useDebouncedCallback from './index';
@@ -15,17 +15,6 @@ const TestComponent = ({ handler, delay, deps, onCallbackChange }) => {
   return null;
 };
 
-const getWrappedUseDebouncedCallback = (delay, deps) => {
-  const hookCallbackRef = { current: null };
-
-  const onCallbackChange = (newCallback) => { hookCallbackRef.current = newCallback; };
-  const handler = sinon.spy();
-
-  const wrapper = mount(<TestComponent {...{ handler, delay, deps, onCallbackChange }} />);
-
-  return { wrapper, hookCallbackRef, handler };
-};
-
 describe('use_debounced_callback', () => {
   let clock;
   beforeEach(() => {
@@ -38,42 +27,124 @@ describe('use_debounced_callback', () => {
 
   context('deps change', () => {
     it('cancels queue', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseDebouncedCallback(200, [1]);
-      act(() => { hookCallbackRef.current(); });
-      wrapper.setProps({ deps: [2] });
+      const hookCallbackRef = { current: null };
 
-      act(() => { clock.tick(200); });
+      const onCallbackChange = (newCallback) => {
+        hookCallbackRef.current = newCallback;
+      };
+      const handler = sinon.spy();
 
-      assert.isNotTrue(handler.called);
+      const { rerender } = render(
+        <TestComponent
+          handler={handler}
+          delay={100}
+          deps={[1]}
+          onCallbackChange={onCallbackChange}
+        />);
+      act(() => {
+        hookCallbackRef.current();
+      });
+      rerender(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[2]}
+          onCallbackChange={onCallbackChange}
+        />);
+
+      act(() => {
+        clock.tick(200);
+      });
+
+      expect(handler.called).is.false;
     });
   });
 
   context('handler changes', () => {
     it('queue stays', () => {
-      const { wrapper, hookCallbackRef, handler } = getWrappedUseDebouncedCallback(200, []);
-      act(() => { hookCallbackRef.current(); });
+      const hookCallbackRef = { current: null };
+
+      const onCallbackChange = (newCallback) => {
+        hookCallbackRef.current = newCallback;
+      };
+      const handler = sinon.spy();
+
+      const { rerender } = render(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[]}
+          onCallbackChange={onCallbackChange}
+        />);
+
+      act(() => {
+        hookCallbackRef.current();
+      });
 
       const newHandler = sinon.spy();
-      wrapper.setProps({ handler: newHandler });
+      rerender(
+        <TestComponent
+          handler={newHandler}
+          delay={200}
+          deps={[]}
+          onCallbackChange={onCallbackChange}
+        />);
 
-      act(() => { clock.tick(200); });
+      act(() => {
+        clock.tick(200);
+      });
 
-      assert.isTrue(newHandler.called, 'new handler got called');
-      assert.isFalse(handler.called, 'old handler did not get called');
+      expect(newHandler.called, 'new handler got called').is.true;
+      expect(handler.called, 'old handler did not get called').is.false;
     });
 
     it('returns same callback', () => {
-      const { wrapper, hookCallbackRef } = getWrappedUseDebouncedCallback(200, []);
+      const hookCallbackRef = { current: null };
+
+      const onCallbackChange = (newCallback) => {
+        hookCallbackRef.current = newCallback;
+      };
+      const handler = sinon.spy();
+
+      const { rerender } = render(
+        <TestComponent
+          handler={handler}
+          delay={200}
+          deps={[]}
+          onCallbackChange={onCallbackChange}
+        />);
+
       const initialHookCallback = hookCallbackRef.current;
+      const newHandler = sinon.spy();
+      rerender(
+        <TestComponent
+          handler={newHandler}
+          delay={200}
+          deps={[]}
+          onCallbackChange={onCallbackChange}
+        />,
+      );
 
-      wrapper.setProps({ handler: sinon.spy() });
-
-      assert.equal(initialHookCallback, hookCallbackRef.current);
+      expect(initialHookCallback).equal(hookCallbackRef.current);
     });
   });
 
   it('calls handler debounced', () => {
-    const { hookCallbackRef, handler } = getWrappedUseDebouncedCallback(100, []);
+    const hookCallbackRef = { current: null };
+
+    const onCallbackChange = (newCallback) => {
+      hookCallbackRef.current = newCallback;
+    };
+    const handler = sinon.spy();
+
+    render(
+      <TestComponent
+        handler={handler}
+        delay={100}
+        deps={[]}
+        onCallbackChange={onCallbackChange}
+      />);
+
     act(() => { hookCallbackRef.current(); });
     act(() => { clock.tick(70); });
     act(() => { hookCallbackRef.current(); });
@@ -81,6 +152,6 @@ describe('use_debounced_callback', () => {
     act(() => { hookCallbackRef.current(); });
     act(() => { clock.tick(100); });
 
-    assert.isTrue(handler.calledTwice);
+    expect(handler.calledTwice).is.true;
   });
 });

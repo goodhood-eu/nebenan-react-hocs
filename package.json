@@ -1,11 +1,10 @@
 {
   "name": "nebenan-react-hocs",
   "description": "Collection of React High Order Components",
-  "author": "Nebenan.de <max@nebenan.de>",
-  "license": "SEE LICENSE IN LICENSE FILE",
-  "readmeFilename": "README.md",
-  "homepage": "https://nebenan.de/",
-  "repository": "good-hood-gmbh/nebenan-react-hocs",
+  "author": "Good Hood GmbH <tech@nebenan.de>",
+  "license": "MIT",
+  "homepage": "https://github.com/goodhood-eu/nebenan-redux-tools#readme",
+  "repository": "github:good-hood-gmbh/nebenan-react-hocs",
   "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
   "version": "9.1.0",
   "files": [

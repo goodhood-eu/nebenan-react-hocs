@@ -21,7 +21,7 @@
     "prepublishOnly": "npm run check && npm run clean && npm run build",
     "lint": "eslint --ext .jsx,.js ./",
     "lint:tofile": "eslint --ext .jsx,.js --no-color -o ./eslint-report.log ./",
-    "test": "TZ='GMT' mocha \"./{,!(node_modules)/**}/*.test.{js,jsx}\"",
+    "test": "npm run compile && TZ='GMT' mocha \"./{,!(node_modules)/**}/*.test.{js,jsx}\"",
     "test:tofile": "TZ='GMT' mocha --no-colors -R spec \"./{,!(node_modules)/**}/*.test.{js,jsx}\" 2>&1 | tee test-report.log"
   },
   "devDependencies": {

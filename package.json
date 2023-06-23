@@ -4,8 +4,8 @@
   "author": "Good Hood GmbH <tech@nebenan.de>",
   "license": "MIT",
   "homepage": "https://github.com/goodhood-eu/nebenan-redux-tools#readme",
-  "repository": "github:good-hood-gmbh/nebenan-react-hocs",
-  "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
+  "repository": "github:goodhood-eu/nebenan-react-hocs",
+  "bugs": "https://github.com/goodhood-eu/nebenan-react-hocs/issues",
   "version": "9.2.0",
   "files": [
     "lib/*.js",

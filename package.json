@@ -6,7 +6,7 @@
   "homepage": "https://github.com/goodhood-eu/nebenan-redux-tools#readme",
   "repository": "github:good-hood-gmbh/nebenan-react-hocs",
   "bugs": "https://github.com/good-hood-gmbh/nebenan-react-hocs/issues",
-  "version": "9.1.1",
+  "version": "9.2.0",
   "files": [
     "lib/*.js",
     "lib/*/*.js"
@@ -48,10 +48,6 @@
     "nebenan-helpers": "^7.2.0",
     "prop-types": "^15.8.1",
     "qs": "^6.11.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^7.2.2",
-    "react-router": "^5.2.0",
     "sinon": "^15.2.0"
   },
   "peerDependencies": {
@@ -59,6 +55,7 @@
     "nebenan-eventproxy": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": ">= 16.14.0",
+    "react-dom": ">= 16.14.0",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "redux": "^4.0.5"

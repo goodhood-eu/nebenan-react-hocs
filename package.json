@@ -6,7 +6,7 @@
   "homepage": "https://github.com/goodhood-eu/nebenan-redux-tools#readme",
   "repository": "github:goodhood-eu/nebenan-react-hocs",
   "bugs": "https://github.com/goodhood-eu/nebenan-react-hocs/issues",
-  "version": "9.2.0",
+  "version": "9.2.1",
   "files": [
     "lib/*.js",
     "lib/*/*.js"
@@ -45,7 +45,7 @@
     "eslint-config-nebenan": "^4.4.1",
     "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
-    "nebenan-helpers": "^7.2.1",
+    "nebenan-helpers": "^7.2.2",
     "prop-types": "^15.8.1",
     "qs": "^6.11.2",
     "sinon": "^17.0.0"
